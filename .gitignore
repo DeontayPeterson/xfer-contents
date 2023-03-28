@@ -1,2 +1,3 @@
 files/
 hidden.py
+__pycache__/
