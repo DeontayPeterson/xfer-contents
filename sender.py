@@ -6,10 +6,11 @@ import struct
 file_dir = os.getcwd() + "/" + "files" 
 all_files = os.listdir(file_dir)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((hidden.DESKTOP, hidden.PORT))
-
 for filename in all_files:
+	
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((hidden.DESKTOP, hidden.PORT))
+    
     file_path = os.path.join(file_dir, filename)
 
     with open(file_path, 'rb') as f:
@@ -24,4 +25,5 @@ for filename in all_files:
 s.close()
 
     
+
 
