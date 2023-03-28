@@ -8,11 +8,17 @@ print(hidden.DESKTOP, hidden.PORT)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((hidden.DESKTOP, hidden.PORT))
 
+s.settimeout(5)
 s.listen()
 
+imgs = 0
 print("Running")
 while True:
-    conn, address = s.accept()
+    try: 
+        conn, address = s.accept()
+    except TimeoutError:
+        print("No connections within 5 seconds")
+        break
 
     file_info = conn.recv(struct.calcsize('!H'))
     file_name_len = struct.unpack('!H', file_info)[0]
@@ -32,6 +38,8 @@ while True:
 
     with open(os.path.join(download_folder, file_name), 'wb') as f:
         f.write(file_contents)
+    imgs += 1
+    if not imgs % 100: print(f"Images Received: {imgs}")
 
     conn.close()
 
